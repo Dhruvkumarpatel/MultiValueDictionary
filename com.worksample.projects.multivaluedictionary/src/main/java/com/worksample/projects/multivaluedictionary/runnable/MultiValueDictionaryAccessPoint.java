@@ -1,7 +1,11 @@
 package com.worksample.projects.multivaluedictionary.runnable;
 
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
+
+import com.worksample.projects.multivaluedictionaryimplementation.MultiValueDictionary;
 
 public class MultiValueDictionaryAccessPoint {
     
@@ -13,12 +17,61 @@ public class MultiValueDictionaryAccessPoint {
 	    System.out.println("Initialized MultiValue Dictionary.....");
 	    defineOperations();
 	    
-	    System.out.println("Select From Following Operations:");
+	    final MultiValueDictionary MVDictionary = new MultiValueDictionary();
+
 	    System.out.println(operations);
 	    
 	    // Select Operation To Perform in MultiValue Dictionary
+	    Scanner scanner = new Scanner(new InputStreamReader(System.in));
+	    System.out.println("Reading input from console using Scanner in Java ");
+	    System.out.println("Please Enter Number to perform specific operation From Following:");
+	    final int operationNumber = scanner.nextInt();
 	    
+	    final Operation operation = operations.get(operationNumber);
 	    
+	    if (operation.equals(Operation.KEYS))
+	    {
+	    }
+	    else if (operation.equals(Operation.MEMBERS))
+	    {
+	        
+	    }
+	    else if (operation.equals(Operation.ADD))
+        {
+            
+        }
+	    else if (operation.equals(Operation.REMOVE))
+        {
+            
+        }
+	    else if (operation.equals(Operation.REMOVEALL))
+        {
+            
+        }
+	    else if (operation.equals(Operation.KEYEXISTS))
+        {
+            
+        }
+	    else if (operation.equals(Operation.MEMBEREXISTS))
+        {
+            
+        }
+	    else if (operation.equals(Operation.ALLMEMBERS))
+        {
+            
+        }
+	    else if (operation.equals(Operation.ITEMS))
+        {
+            
+        }
+	    else if (operation.equals(Operation.CLEAR))
+        {
+            
+        }
+	    else
+	    {
+	        
+	    }
 	}
 	
 	

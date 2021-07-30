@@ -37,32 +37,55 @@ public class MultiValueDictionary implements Dictionary
     }
 
     @Override
-    public List<String> getAllMembers(final String key)
+    public List<String> getAllMembers(final String key) throws Exception
     {
-        final BalancedBinarySearchTree values = multiValueDict.get(key);
-        
-        if (values == null)
+        if (key == null || key.isEmpty())
         {
-            // throw an error saying that not exist.
-            // return an empty list
+            throw new Exception("ERROR : Given key is null or empty.");
         }
         
+        if (!multiValueDict.containsKey(key))
+        {
+            throw new Exception("ERROR : key does not exist.");
+        }
+        
+        final BalancedBinarySearchTree values = multiValueDict.get(key);
         return values.getAllValues();
     }
 
     @Override
-    public void add(String key, String value)
+    public void add(String key, String value) throws Exception
     {
+        if (key == null || value == null || key.isEmpty() || value.isEmpty())
+        {
+            throw new Exception("ERROR : Given key or Member value is null or empty.");
+        }
+        
+        if (multiValueDict.get(key)!= null && multiValueDict.get(key).search(value) != null)
+        {
+            throw new Exception("ERROR : Member already exists for the key.");
+        }
+        
         final BalancedBinarySearchTree values = multiValueDict.computeIfAbsent(key, k -> new BalancedBinarySearchTree(value));
         values.insert(value);
     }
 
     @Override
-    public void remove(final String key, final String value)
+    public void remove(final String key, final String value) throws Exception
     {
+        if (key == null || value == null || key.isEmpty() || value.isEmpty())
+        {
+            throw new Exception("ERROR : Given key or Member value is null or empty.");
+        }
+        
         if (!multiValueDict.containsKey(key))
         {
-            // throw an error.
+            throw new Exception("ERROR : key does not exist.");
+        }
+        
+        if (multiValueDict.get(key).search(value) == null)
+        {
+            throw new Exception("ERROR : member does not exist.");
         }
         
         final BalancedBinarySearchTree values = multiValueDict.get(key);
@@ -75,15 +98,21 @@ public class MultiValueDictionary implements Dictionary
     }
 
     @Override
-    public void removeAllMembers(final String key)
+    public void removeAllMembers(final String key) throws Exception
     {
+        if (key == null || key.isEmpty())
+        {
+            throw new Exception("ERROR : Given key is null or empty.");
+        }
+        
         if (!multiValueDict.containsKey(key))
         {
-            // throw an error.
+            throw new Exception("ERROR : key does not exist.");
         }
         
         final BalancedBinarySearchTree values = multiValueDict.get(key);
         values.getAllValues().forEach(s -> values.remove(s));
+        
         multiValueDict.remove(key);
     }
 
