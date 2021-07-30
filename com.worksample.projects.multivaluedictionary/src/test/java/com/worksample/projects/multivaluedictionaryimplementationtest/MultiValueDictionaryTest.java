@@ -10,6 +10,11 @@ import org.junit.jupiter.api.Test;
 
 import com.worksample.projects.multivaluedictionaryimplementation.MultiValueDictionary;
 
+/**
+ * Test class to verify the functionality of {@link MultiValueDictionary}.
+ * 
+ * @author DP051767
+ */
 public class MultiValueDictionaryTest
 {
     private MultiValueDictionary multiValueDict;
@@ -182,5 +187,26 @@ public class MultiValueDictionaryTest
         Assertions.assertTrue(multiValueDict.isMemberExist("foo", "bar"));
         Assertions.assertFalse(multiValueDict.isMemberExist("foo3", "bar1"));
         Assertions.assertFalse(multiValueDict.isMemberExist("foo4", "bar1"));
+    }
+    
+    @Test
+    public void testGetAllItems() throws Exception
+    {
+        multiValueDict.add("foo", "bar");
+        multiValueDict.add("foo", "baz");
+        multiValueDict.add("foo2", "bar");
+        multiValueDict.add("foo3", "baz");
+        
+        multiValueDict.getAllKeys().forEach(k -> {
+            
+            try
+            {
+                multiValueDict.getAllMembers(k).forEach(m -> System.out.println(k +":"+m));
+            }
+            catch (Exception e)
+            {
+                System.out.println(e.getMessage());
+            }
+        });
     }
 }

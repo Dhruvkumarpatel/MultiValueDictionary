@@ -3,27 +3,42 @@ package com.worksample.projects.multivaluedictionaryimplementation;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the implementation of Blanaced Binary Search Tree to perform 
+ * insert, search and delete operation.
+ * 
+ * @author DP051767
+ */
 public class BalancedBinarySearchTree
 {
     BSTNode root;
 
+    /**
+     * Constructor to allow object creation.
+     * 
+     * @param value the root node value in BST.
+     */
     public BalancedBinarySearchTree(final String value)
     {
         root = new BSTNode(value);
     }
 
-    public void insert(final String value) throws Exception
+    /**
+     * Insert the given value in binary search tree.
+     * 
+     * @param value the value that need to be added. 
+     */
+    public void insert(final String value)
     {
-        if (value == null || value.isEmpty())
-        {
-            throw new Exception("Given value is null or empty");
-        }
-        
-        // BST normal insertion operation
-        
-        insert(root, value);
+        root = insertHelper(root, value);
     }
 
+    /**
+     * Search the given value in Binary Search Tree.
+     * 
+     * @param value the value that need to be searched.
+     * @return the {@link BSTNode} for the given value, {@code null} otherwise.
+     */
     public BSTNode search(final String value)
     {
         if (root == null)
@@ -54,11 +69,19 @@ public class BalancedBinarySearchTree
         return null;
     }
 
+    /**
+     * Remove the given value from the Binary Search Tree.
+     * 
+     * @param value the value that need to be searched.
+     */
     public void remove(final String value)
     {
         root = remove(root, value);
     }
 
+    /**
+     * @return the {@link List} of all the node values from this Binary Search Tree.
+     */
     public List<String> getAllValues()
     {
         final List<String> values = new ArrayList<>();
@@ -67,8 +90,13 @@ public class BalancedBinarySearchTree
         return values;
     }
 
-    // InOrder Traversal
-    private void inOrderTraversal(BSTNode node, final List<String> values)
+    /**
+     * This function visit all the nodes in Binary Search Tree in inOrder (left -> root-> right) manner.
+     * 
+     * @param node the {@link BSTNode}.
+     * @param values {@link List} for collecting the values.
+     */
+    private void inOrderTraversal(final BSTNode node, final List<String> values)
     {
         if (node == null)
         {
@@ -80,6 +108,13 @@ public class BalancedBinarySearchTree
         inOrderTraversal(node.getRight(), values);
     }
 
+    /**
+     * Function to remove the given value from Binary Search Tree.
+     * 
+     * @param remove the {@link BSTNode}
+     * @param value the given value that need to be removed.
+     * @return the {@link BSTNode} root of the Binary Search Tree. 
+     */
     private BSTNode remove(BSTNode remove, final String value)
     {
         if (remove == null)
@@ -99,7 +134,7 @@ public class BalancedBinarySearchTree
         }
         else
         {
-            // if node has atmost 1 child
+            // If node that need to be removed has atmost 1 child.
             if (remove.getLeft() == null || remove.getRight() == null)
             {
                 BSTNode temp = remove.getLeft() == null ? remove.getRight() : remove.getLeft();
@@ -118,6 +153,7 @@ public class BalancedBinarySearchTree
             }
             else
             {
+                // Find the next available minimum value node to replace.
                 BSTNode temp = findNextAvailableDescendant(remove.getRight());
 
                 remove.setVal(temp.getVal());
@@ -134,6 +170,14 @@ public class BalancedBinarySearchTree
         return applyBalancingToTreeForDelete(remove);
     }
     
+    /**
+     * This function is to check Binary Search Tree balance at any given {@link BSTNode} after delete operation.
+     * Restructure the nodes at all the level until at any given node the height difference from left subtree and right subtree
+     * is less than or equal to 1. 
+     * 
+     * @param node the {@link BSTNode}.
+     * @return the new or existing root of new balanced binary search tree.
+     */
     private BSTNode applyBalancingToTreeForDelete(BSTNode node)
     {
         // update the height of parent
@@ -143,13 +187,11 @@ public class BalancedBinarySearchTree
 
         if (balanceAtNode > 1 && calculateBalanceAtGivenNode(node.getLeft()) >= 0)
         {
-            // left left case
             return rightRotate(node);
         }
 
         if (balanceAtNode < -1 && calculateBalanceAtGivenNode(node.getRight()) <= 0)
         {
-            // right right case
             return leftRotate(node);
         }
 
@@ -168,22 +210,28 @@ public class BalancedBinarySearchTree
         return node;
     }
 
-    private BSTNode applyBalancingToTreeForSearch(BSTNode node, String value)
+    /**
+     * This function is to check Binary Search Tree balance at any given {@link BSTNode} after search operation.
+     * Restructure the nodes at all the level until at any given node the height difference from left subtree and right subtree
+     * is less than or equal to 1. 
+     * 
+     * @param node the {@link BSTNode}.
+     * @param value the given value that need to be searched.
+     * @return the new or existing root of new balanced binary search tree.
+     */
+    private BSTNode applyBalancingToTreeForSearch(final BSTNode node, final String value)
     {
-        // update the height of parent
         node.setHeight(1 + Math.max(getHeight(node.getLeft()), getHeight(node.getRight())));
 
         final int balanceAtNode = calculateBalanceAtGivenNode(node);
 
         if (balanceAtNode > 1 && value.compareTo(node.getLeft().getVal()) < 0)
         {
-            // left left case
             return rightRotate(node);
         }
 
         if (balanceAtNode < -1 && value.compareTo(node.getRight().getVal()) > 0)
         {
-            // right right case
             return leftRotate(node);
         }
 
@@ -202,7 +250,13 @@ public class BalancedBinarySearchTree
         return node;
     }
 
-    private BSTNode findNextAvailableDescendant(BSTNode right)
+    /**
+     * Function to find minimum value in the subtree with given {@link BSTNode}.
+     * 
+     * @param right the {@link BSTNode} root of this subtree.
+     * @return the lowest value in this subtree.
+     */
+    private BSTNode findNextAvailableDescendant(final BSTNode right)
     {
         BSTNode current = right;
 
@@ -214,7 +268,14 @@ public class BalancedBinarySearchTree
         return current;
     }
 
-    private BSTNode insert(final BSTNode node, final String value)
+    /**
+     * Insert helper to insert the given value in Binary Search Tree.
+     * 
+     * @param node the {@link BSTNode}.
+     * @param value the given value that need to be searched.
+     * @return the root of the newly balanced binary search tree.
+     */
+    private BSTNode insertHelper(final BSTNode node, final String value)
     {
         if (node == null)
         {
@@ -225,11 +286,11 @@ public class BalancedBinarySearchTree
 
         if (compare > 0)
         {
-            node.setRight(insert(node.getRight(), value));
+            node.setRight(insertHelper(node.getRight(), value));
         }
         else if (compare < 0)
         {
-            node.setLeft(insert(node.getLeft(), value));
+            node.setLeft(insertHelper(node.getLeft(), value));
         }
         else
         {
@@ -240,11 +301,10 @@ public class BalancedBinarySearchTree
     }
 
     /**
-     * n2 / n1 /
+     * Rotate the given node into right side in the BST.
      * 
-     * 
-     * @param n2
-     * @return
+     * @param n2 the {@link BSTNode}
+     * @return new root node in this sub tree.
      */
     private BSTNode rightRotate(final BSTNode n2)
     {
@@ -263,11 +323,10 @@ public class BalancedBinarySearchTree
     }
 
     /**
-     * n2 / n1 /
+     * Rotate the given node into left side in the BST.
      * 
-     * 
-     * @param n2
-     * @return
+     * @param n2 the {@link BSTNode}
+     * @return new root node in this sub tree.
      */
     private BSTNode leftRotate(final BSTNode n2)
     {
@@ -285,6 +344,13 @@ public class BalancedBinarySearchTree
         return n1;
     }
 
+    /**
+     * Calculate the left child height and right child height difference to check the balance factor at given 
+     * node. 
+     * 
+     * @param node the given {@link BSTNode}.
+     * @return the the left child height and right child height difference.
+     */
     private int calculateBalanceAtGivenNode(final BSTNode node)
     {
         if (node == null)
@@ -295,6 +361,12 @@ public class BalancedBinarySearchTree
         return getHeight(node.getLeft()) - getHeight(node.getRight());
     }
     
+    /**
+     * Check the height at the given node in BST.
+     * 
+     * @param node the given {@link BSTNode}.
+     * @return the height at the given node, 0 otherwise.
+     */
     private int getHeight(final BSTNode node)
     {
         return node != null ? node.getHeight() : 0; 

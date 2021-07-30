@@ -9,6 +9,11 @@ import org.junit.jupiter.api.Test;
 
 import com.worksample.projects.multivaluedictionaryimplementation.BalancedBinarySearchTree;
 
+/**
+ * Test class to verify {@link BalancedBinarySearchTree} functionalities.
+ * 
+ * @author DP051767
+ */
 public class BalancedBinarySearchTreeTest
 {
     private BalancedBinarySearchTree balancedBST;
@@ -21,13 +26,7 @@ public class BalancedBinarySearchTreeTest
         balancedBST.insert("k");
         balancedBST.insert("a");
     }
-    
-    @Test
-    public void testInsertWithEmptyStringValue()
-    {
-        Assertions.assertThrows(Exception.class, () -> balancedBST.insert(""));
-    }
-    
+
     @Test
     public void testInsertWithValidStringValue() throws Exception
     {
@@ -36,24 +35,6 @@ public class BalancedBinarySearchTreeTest
         Assertions.assertEquals("j", balancedBST.search("j").getVal());
         Assertions.assertEquals("g", balancedBST.search("g").getVal());
         Assertions.assertNull(balancedBST.search("c"));
-    }
-    
-    @Test
-    public void testInsertWithNullStringValue()
-    {
-        Assertions.assertThrows(Exception.class, () -> balancedBST.insert(null));
-    }
-    
-    @Test
-    public void testSearchWithEmptyStringValue()
-    {
-        Assertions.assertThrows(Exception.class, () -> balancedBST.search(""));
-    }
-    
-    @Test
-    public void testSearchWithNullStringValue()
-    {
-        Assertions.assertThrows(Exception.class, () -> balancedBST.search(null));
     }
     
     @Test
@@ -69,19 +50,7 @@ public class BalancedBinarySearchTreeTest
         Assertions.assertEquals("e", balancedBST.search("e").getVal());
         Assertions.assertNull(balancedBST.search("d"));
     }
-    
-    @Test
-    public void testRemoveWithEmptyStringValue()
-    {
-        Assertions.assertThrows(Exception.class, () -> balancedBST.remove(""));
-    }
-    
-    @Test
-    public void testRemoveWithNullStringValue()
-    {
-        Assertions.assertThrows(Exception.class, () -> balancedBST.remove(null));
-    }
-    
+
     @Test
     public void testRemoveWithValidStringValues() throws Exception
     {
